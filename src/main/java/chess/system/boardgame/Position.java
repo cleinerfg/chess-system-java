@@ -1,4 +1,4 @@
-package chess.system.application.boardgame;
+package chess.system.boardgame;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
