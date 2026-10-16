@@ -14,7 +14,7 @@ public class Board {
 
     public Board(int rows, int columns) {
         if (rows < 1 || columns < 1) {
-            throw new BoardException("Error creating Board: rows and columns must be greater than 1.");
+            throw new BoardException("Error creating Board: rows and columns must be grater than 0");
         }
 
         this.rows = rows;
