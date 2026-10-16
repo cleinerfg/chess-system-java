@@ -9,10 +9,10 @@ import lombok.Setter;
 public class Position {
 
     private int row;
-    private int col;
+    private int column;
 
     @Override
     public String toString() {
-        return row + "-" + col;
+        return row + "-" + column;
     }
 }
