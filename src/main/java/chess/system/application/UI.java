@@ -1,9 +1,13 @@
 package chess.system.application;
 
 import chess.system.chess.ChessPiece;
+import chess.system.chess.ChessPosition;
 import chess.system.chess.Color;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UI {
@@ -15,6 +19,20 @@ public class UI {
 
     private static final String ANSI_PIECE_WHITE = "\u001B[1;38;5;255m";
     private static final String ANSI_PIECE_BLACK = "\u001B[1;38;5;232m";
+
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static ChessPosition readChessPosition() {
+        try {
+            String position = scanner.nextLine();
+            char column = position.charAt(0);
+            int row = Integer.parseInt(position.substring(1));
+            return new ChessPosition(column, row);
+        } catch (RuntimeException e) {
+            throw new InputMismatchException("Error reading ChessPosition. Valid values are a1 to h8.");
+        }
+
+    }
 
     public static void printBoard(ChessPiece[][] pieces) {
         for (int i = 0; i < pieces.length; i++) {
