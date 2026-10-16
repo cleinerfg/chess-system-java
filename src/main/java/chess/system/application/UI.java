@@ -22,6 +22,16 @@ public class UI {
 
     private static Scanner scanner = new Scanner(System.in);
 
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J\033[3J");
+        System.out.flush();
+    }
+
+    public static void nextLine() {
+        scanner.nextLine();
+    }
+
     public static ChessPosition readChessPosition() {
         try {
             String position = scanner.nextLine();
