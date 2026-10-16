@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -44,11 +45,28 @@ public class UI {
         }
     }
 
-    public static void printMatch(ChessMatch match) {
+    public static void printMatch(ChessMatch match, List<ChessPiece> capturedPieces) {
         printBoard(match.getPieces());
         System.out.println();
+        printCapturedPieces(capturedPieces);
         System.out.println("Turn: " + match.getTurn());
         System.out.println("Waiting player: " + match.getCurrentPlayer());
+    }
+
+    private static void printCapturedPieces(List<ChessPiece> capturedPieces) {
+        List<ChessPiece> white = capturedPieces.stream()
+                .filter(piece -> piece.getColor() == Color.WHITE)
+                .toList();
+
+        List<ChessPiece> black = capturedPieces.stream()
+                .filter(piece -> piece.getColor() == Color.BLACK)
+                .toList();
+
+        System.out.println("Captured pieces:");
+        System.out.println("White: " + white);
+        System.out.println("Black: " + black);
+        System.out.println();
+
     }
 
     public static void printBoard(ChessPiece[][] pieces) {

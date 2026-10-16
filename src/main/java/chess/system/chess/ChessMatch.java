@@ -7,6 +7,9 @@ import chess.system.chess.pieces.King;
 import chess.system.chess.pieces.Rook;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChessMatch {
 
     @Getter
@@ -16,6 +19,9 @@ public class ChessMatch {
     private Color currentPlayer = Color.WHITE;
 
     private Board board;
+
+    private List<Piece> piecesOnTheBoard = new ArrayList<>();
+    private List<Piece> capturedPieces = new ArrayList<>();
 
     public ChessMatch() {
         this.board = new Board(8, 8);
@@ -62,7 +68,12 @@ public class ChessMatch {
         Piece piece = board.removePiece(source);
         Piece capturedPiece = board.removePiece(target);
         board.placePiece(piece, target);
-        return capturedPiece;
+
+        if (capturedPiece != null) {
+            piecesOnTheBoard.remove(capturedPiece);
+            capturedPieces.add(capturedPiece);
+        }
+        return piece;
     }
 
     private void validateSourcePosition(Position position) {
@@ -90,5 +101,6 @@ public class ChessMatch {
 
     private void placeNewPiece(char column, int row, ChessPiece piece) {
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        piecesOnTheBoard.add(piece);
     }
 }

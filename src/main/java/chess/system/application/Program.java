@@ -4,16 +4,20 @@ import chess.system.chess.ChessMatch;
 import chess.system.chess.ChessPiece;
 import chess.system.chess.ChessPosition;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Program {
 
     static void main() {
 
         ChessMatch chessMatch = new ChessMatch();
+        List<ChessPiece> capturedPieces = new ArrayList<>();
 
         while (true) {
             try {
                 UI.clearScreen();
-                UI.printMatch(chessMatch);
+                UI.printMatch(chessMatch, capturedPieces);
                 System.out.println();
                 System.out.print("Source: ");
                 ChessPosition source = UI.readChessPosition();
@@ -26,6 +30,7 @@ public class Program {
                 ChessPosition target = UI.readChessPosition();
 
                 ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+                if (capturedPiece != null) capturedPieces.add(capturedPiece);
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
                 UI.nextLine();
