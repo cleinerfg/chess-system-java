@@ -11,29 +11,30 @@ public class Rook extends ChessPiece {
         super(board, color);
     }
 
+    private void checkDirection(boolean[][] moves, int rowOffset, int colOffset) {
+        Position targetPosition = new Position(position.getRow() + rowOffset, position.getColumn() + colOffset);
+
+        while (getBoard().positionExists(targetPosition) && !getBoard().thereIsAPiece(targetPosition)) {
+            moves[targetPosition.getRow()][targetPosition.getColumn()] = true;
+            targetPosition.setValues(targetPosition.getRow() + rowOffset, targetPosition.getColumn() + colOffset);
+        }
+
+        if (getBoard().positionExists(targetPosition) && isThereAnOpponentPiece(targetPosition)) {
+            moves[targetPosition.getRow()][targetPosition.getColumn()] = true;
+        }
+    }
+
     @Override
     public boolean[][] possibleMoves() {
         boolean[][] possibleMoves = new boolean[getBoard().getRows()][getBoard().getColumns()];
 
-        checkDirection(possibleMoves, -1, 0); // Above
-        checkDirection(possibleMoves, 1, 0);  // Below
-        checkDirection(possibleMoves, 0, -1); // Left
-        checkDirection(possibleMoves, 0, 1);  // Right
+        // Orthogonal moves (Above, Below, Left, Right)
+        checkDirection(possibleMoves, -1, 0);
+        checkDirection(possibleMoves, 1, 0);
+        checkDirection(possibleMoves, 0, -1);
+        checkDirection(possibleMoves, 0, 1);
 
         return possibleMoves;
-    }
-
-    private void checkDirection(boolean[][] mat, int rowOffset, int columnOffset) {
-        Position p = new Position(position.getRow() + rowOffset, position.getColumn() + columnOffset);
-
-        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-            p.setValues(p.getRow() + rowOffset, p.getColumn() + columnOffset);
-        }
-
-        if (getBoard().positionExists(p) && isThereAnOpponentPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-        }
     }
 
     @Override
