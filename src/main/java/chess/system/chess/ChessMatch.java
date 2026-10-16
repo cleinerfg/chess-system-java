@@ -5,8 +5,15 @@ import chess.system.boardgame.Piece;
 import chess.system.boardgame.Position;
 import chess.system.chess.pieces.King;
 import chess.system.chess.pieces.Rook;
+import lombok.Getter;
 
 public class ChessMatch {
+
+    @Getter
+    private int turn = 1;
+
+    @Getter
+    private Color currentPlayer = Color.WHITE;
 
     private Board board;
 
@@ -47,6 +54,7 @@ public class ChessMatch {
         validateSourcePosition(source);
         validateTargetPosition(source, target);
         Piece capturedPiece = makeMove(source, target);
+        nextTurn();
         return (ChessPiece) capturedPiece;
     }
 
@@ -61,6 +69,9 @@ public class ChessMatch {
         if (!board.thereIsAPiece(position)) {
             throw new ChessException("There is no piece at the source position ");
         }
+        if (currentPlayer != ((ChessPiece) board.getPiece(position)).getColor()) {
+            throw new ChessException("The current player is " + currentPlayer);
+        }
         if (!board.getPiece(position).isThereAnyPossibleMove()) {
             throw new ChessException("There is no possible move to the piece");
         }
@@ -70,6 +81,11 @@ public class ChessMatch {
         if (!board.getPiece(source).possibleMove(target)) {
             throw new ChessException("The piece can't be moved to the target position");
         }
+    }
+
+    private void nextTurn() {
+        turn++;
+        currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
     }
 
     private void placeNewPiece(char column, int row, ChessPiece piece) {
