@@ -35,6 +35,12 @@ public class ChessMatch {
         placeNewPiece('h', 8, new Rook(board, Color.BLACK));
     }
 
+    public boolean[][] possibleMoves(ChessPosition source) {
+        Position p = source.toPosition();
+        validateSourcePosition(p);
+        return board.getPiece(p).possibleMoves();
+    }
+
     public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
